@@ -780,8 +780,9 @@ class SpatialInvoiceParser:
                 )
 
         # Check 2: Line items sum against Subtotal
-        if line_items and totals.subtotal is not None:
-            line_sum = round(sum(item.line_total for item in line_items if item.line_total is not None), 2)
+        priced_items = [item for item in line_items if item.line_total is not None]
+        if priced_items and totals.subtotal is not None:
+            line_sum = round(sum(item.line_total for item in priced_items), 2)
             diff_lines = round(abs(line_sum - totals.subtotal), 2)
             if diff_lines > 0.10:
                 flags.math_mismatch_line_items = True

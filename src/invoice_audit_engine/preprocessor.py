@@ -30,23 +30,26 @@ def load_document_pages(file_path: str) -> List[np.ndarray]:
     """
     if file_path.lower().endswith(".pdf"):
         pdf = pdfium.PdfDocument(file_path)
-        pages = []
-        for i in range(len(pdf)):
-            page = pdf[i]
-            # Render at 2.5x scale (approx 180-200 DPI) for crisp character definition
-            bitmap = page.render(scale=2.5)
-            pil_image = bitmap.to_pil()
-            arr = np.array(pil_image)
-            if len(arr.shape) == 3 and arr.shape[2] == 3:
-                bgr = cv2.cvtColor(arr, cv2.COLOR_RGB2BGR)
-            elif len(arr.shape) == 3 and arr.shape[2] == 4:
-                bgr = cv2.cvtColor(arr, cv2.COLOR_RGBA2BGR)
-            elif len(arr.shape) == 2:
-                bgr = cv2.cvtColor(arr, cv2.COLOR_GRAY2BGR)
-            else:
-                bgr = arr
-            pages.append(bgr)
-        return pages
+        try:
+            pages = []
+            for i in range(len(pdf)):
+                page = pdf[i]
+                # Render at 2.5x scale (approx 180-200 DPI) for crisp character definition
+                bitmap = page.render(scale=2.5)
+                pil_image = bitmap.to_pil()
+                arr = np.array(pil_image)
+                if len(arr.shape) == 3 and arr.shape[2] == 3:
+                    bgr = cv2.cvtColor(arr, cv2.COLOR_RGB2BGR)
+                elif len(arr.shape) == 3 and arr.shape[2] == 4:
+                    bgr = cv2.cvtColor(arr, cv2.COLOR_RGBA2BGR)
+                elif len(arr.shape) == 2:
+                    bgr = cv2.cvtColor(arr, cv2.COLOR_GRAY2BGR)
+                else:
+                    bgr = arr
+                pages.append(bgr)
+            return pages
+        finally:
+            pdf.close()
     else:
         return [load_and_normalize_image(file_path)]
 

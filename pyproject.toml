@@ -33,6 +33,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0.0",
+    "pymupdf>=1.23.0",
 ]
 
 [project.scripts]
