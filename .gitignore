@@ -1,0 +1,45 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments & package build
+.venv/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Testing & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Executables & distribution packages
+*.exe
+*.zip
+*.tar.gz
+
+# Local database checkpointing & output reports
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.xlsx
+*.parquet
+*.csv
+*.log
+
+# Local test scratch / data
+data/
+raw/
+output/
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
