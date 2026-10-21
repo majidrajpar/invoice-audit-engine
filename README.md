@@ -83,12 +83,12 @@ The engine exports findings into a professionally formatted Excel register with 
 
 ## 4. Scale & Performance (10,000+ Invoices)
 
-Designed from the ground up for full enterprise populations:
+Engineered for 100% population verification across large general ledgers:
 
-- **Parallel Processing Pool:** Automatically harnesses multi-core CPUs via Python's `ProcessPoolExecutor`. An 8-core workstation processes 10,000 invoices in **~40 minutes** (~0.25s per invoice).
+- **Parallel Processing Pool:** Multi-core execution via Python's `ProcessPoolExecutor`. An 8-core workstation processes 10,000 invoices in **~40 minutes** (~0.25s per invoice).
 - **SQLite Checkpoint Ledger (`audit_ledger.db`):** Records completed extractions by SHA-256 hash. If an audit run is stopped at document 6,400, re-running skips processed files and **resumes instantly at 6,401**.
 - **Memory Streaming:** Keeps RAM usage under 300 MB throughout the run.
-- **Excel Lock Resilience:** If the destination Excel file is open in Microsoft Excel, the engine saves to a timestamped file rather than crashing with a `PermissionError`.
+- **Excel Lock Resilience:** If the destination Excel file is open in Microsoft Excel, the engine saves to a timestamped file rather than terminating with a `PermissionError`.
 
 ---
 

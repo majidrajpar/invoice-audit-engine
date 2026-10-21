@@ -44,7 +44,7 @@ SOFTWARE.
 BANNER = f"""{"=" * 74}
   INVOICE AUDIT ENGINE | Continuous Document Telemetry v{VERSION}
   Architect : Majid Mumtaz (CIA, ACA, FCCA)
-  License   : MIT License (Open Source)
+  License   : MIT License
 {"=" * 74}"""
 
 
@@ -74,15 +74,15 @@ def main():
 
     if is_double_click:
         print(BANNER)
-        print("\nWelcome! No command-line arguments detected.")
-        print("You can drag and drop a folder or document image directly into this window.\n")
+        print("\nInteractive mode. Drag and drop an invoice folder or image file into this window,")
+        print("or enter the target path below.\n")
 
         try:
             user_input = input("Enter path to invoice folder or image file: ").strip()
             user_input = user_input.strip('"').strip("'")
 
             if not user_input:
-                print("\n[Notice] No path provided. Exiting.")
+                print("\n[Exit] No path entered.")
                 try:
                     input("\nPress Enter to close this window...")
                 except (EOFError, KeyboardInterrupt):
@@ -175,11 +175,11 @@ def main():
         )
         if should_pause_at_exit:
             try:
-                input("\n[Done] Audit completed successfully. Press Enter to close this window...")
+                input("\n[Complete] Audit finished. Press Enter to close this window...")
             except (EOFError, KeyboardInterrupt):
                 pass
     except KeyboardInterrupt:
-        print("\n[Audit Interrupted] Process safely stopped. Progress preserved in SQLite ledger.")
+        print("\n[Interrupted] Run halted. Progress saved in checkpoint ledger.")
         if should_pause_at_exit:
             try:
                 input("\nPress Enter to close this window...")
@@ -187,7 +187,7 @@ def main():
                 pass
         sys.exit(1)
     except Exception as e:
-        print(f"\n[FATAL ERROR] {e}")
+        print(f"\n[Error] {e}")
         if should_pause_at_exit:
             try:
                 input("\nPress Enter to close this window...")
