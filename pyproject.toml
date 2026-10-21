@@ -26,7 +26,8 @@ dependencies = [
     "pydantic>=2.5.0",
     "openpyxl>=3.1.0",
     "tqdm>=4.66.0",
-    "psutil>=5.9.0"
+    "psutil>=5.9.0",
+    "pypdfium2>=0.23.0"
 ]
 
 [project.optional-dependencies]
@@ -39,3 +40,7 @@ invoice-audit = "invoice_audit_engine.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

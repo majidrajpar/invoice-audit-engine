@@ -129,6 +129,12 @@ invoice-audit -i ./invoices_2025 ./invoices_2026 -o ./master_audit.xlsx -w 8
 
 # Custom database checkpoint location
 invoice-audit -i ./invoices -o ./audit.xlsx --db ./checkpoints.db
+
+# Display full MIT License terms and copyright
+invoice-audit --license
+
+# Check engine version
+invoice-audit --version
 ```
 
 ### Python API
