@@ -286,6 +286,7 @@ def export_audit_to_excel(
         ("Item #", None),
         ("Description", None),
         ("Quantity", "#,##0"),
+        ("Inferred Qty?", None),
         ("Unit Price", "#,##0.00"),
         ("Line Total", "#,##0.00"),
         ("Calculated Total (Qty*Rate)", "#,##0.00"),
@@ -312,6 +313,7 @@ def export_audit_to_excel(
         for idx, item in enumerate(r.line_items, start=1):
             status_str = "OK" if item.is_math_sound else "MISMATCH"
             check_flag = "VERIFY (< 70%)" if item.confidence < CONFIDENCE_THRESHOLD else "OK"
+            inferred_str = "YES" if item.is_quantity_inferred else "NO"
 
             row_data = [
                 fname,
@@ -319,6 +321,7 @@ def export_audit_to_excel(
                 idx,
                 item.description,
                 item.quantity,
+                inferred_str,
                 item.unit_price,
                 item.line_total,
                 item.calculated_total,
@@ -337,7 +340,7 @@ def export_audit_to_excel(
                 if num_fmt and c_cell.value is not None:
                     c_cell.number_format = num_fmt
 
-            m_cell = ws_lines.cell(row=curr_row, column=10)
+            m_cell = ws_lines.cell(row=curr_row, column=11)
             if status_str == "MISMATCH":
                 m_cell.fill, m_cell.font = fail_fill, fail_font
             elif item.quantity is not None and item.unit_price is not None:

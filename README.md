@@ -29,7 +29,7 @@ Commercial cloud OCR products introduce severe vulnerabilities:
 ## 2. Technical Architecture
 
 ```
-[Raw Invoices / Receipts (JPG, PNG, TIFF)]
+[Raw Invoices / Receipts / PDFs (PDF, JPG, PNG, TIFF, BMP, WEBP)]
                     │
                     ▼
        1. Zero-Trust Quality Gate
@@ -124,11 +124,8 @@ pip install -e .
 # Audit a folder of invoices using auto-detected CPU cores
 invoice-audit --input /path/to/invoices --output audit_report.xlsx
 
-# Audit multiple folders with 8 parallel worker processes
-invoice-audit -i ./invoices_2025 ./invoices_2026 -o ./master_audit.xlsx -w 8
-
-# Custom database checkpoint location
-invoice-audit -i ./invoices -o ./audit.xlsx --db ./checkpoints.db
+# Audit multiple folders with 8 parallel worker processes and SQLite checkpoint ledger
+invoice-audit -i ./invoices_2025 ./invoices_2026 -o ./master_audit.xlsx --db audit_ledger.db -w 8
 
 # Display full MIT License terms and copyright
 invoice-audit --license
@@ -136,6 +133,19 @@ invoice-audit --license
 # Check engine version
 invoice-audit --version
 ```
+
+#### CLI Parameters Reference
+
+| Flag | Long Flag | Description | Default |
+| :--- | :--- | :--- | :--- |
+| `-i` | `--input` | One or more input directories or image/PDF file paths. | *Required* |
+| `-o` | `--output` | Destination path for generated 5-tab Excel audit workbook. | `<input>/audit_report.xlsx` |
+| | `--db` | SQLite checkpoint ledger path for pause/resume idempotency. | `None` (fresh run) |
+| `-w` | `--workers` | Parallel worker processes. | Auto-detected CPU cores |
+| | `--no-deskew` | Disables automated OpenCV image deskewing. | `False` (deskew enabled) |
+| | `--license` | Displays complete MIT License and copyright terms. | `False` |
+| `-v` | `--version` | Displays engine version and attribution. | |
+| `-h` | `--help` | Displays command usage and arguments. | |
 
 ### Python API
 
@@ -184,13 +194,28 @@ pytest tests/ -v
 
 ---
 
-## 9. License
+## 9. Compiling Standalone Executable (Windows x64)
+
+To build the air-gapped, zero-dependency `invoice-audit-standalone.exe` from source:
+
+```bash
+# Install PyInstaller
+pip install pyinstaller
+
+# Build single-file executable using bundled ONNX runtime and PDFium hooks
+pyinstaller invoice-audit-onefile.spec --clean
+```
+The compiled binary will be generated under `dist/invoice-audit-standalone.exe`.
+
+---
+
+## 10. License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 10. Author & Thought Leadership
+## 11. Author & Thought Leadership
 
 **Majid Mumtaz** (CIA, ACA, FCCA, GRCP, GRCA)  
 Director of Internal Audit & Risk Advisory | Audit Committee Secretary  
@@ -198,5 +223,5 @@ Director of Internal Audit & Risk Advisory | Audit Committee Secretary
 
 - **LinkedIn:** [linkedin.com/in/majid-m-4b097118](https://www.linkedin.com/in/majid-m-4b097118/)
 - **Newsletter:** *The Audit Signal* (Continuous Controls Monitoring & Audit Analytics)
-- **YouTube Channel:** `@AuditBitz`
+- **YouTube Channel:** [@AuditBitz](https://www.youtube.com/@AuditBitz)
 - **Portfolio & Open Tools:** [majidrajpar.github.io/portfolio_my](https://majidrajpar.github.io/portfolio_my)

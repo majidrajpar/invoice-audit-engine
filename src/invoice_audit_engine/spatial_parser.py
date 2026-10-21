@@ -787,9 +787,13 @@ class SpatialInvoiceParser:
             if diff_lines > 0.10:
                 flags.math_mismatch_line_items = True
                 flags.lines_discrepancy_amount = diff_lines
+                flags.is_mathematically_sound = False
                 flags.notes.append(
                     f"Line items sum ({line_sum}) does not match subtotal ({totals.subtotal}). Variance: {diff_lines}"
                 )
+        elif not priced_items and totals.subtotal is None and totals.total_amount is None:
+            flags.is_mathematically_sound = False
+            flags.notes.append("Unreconciled: Missing subtotal and grand total anchors on document.")
 
         # Check 3: Line Item Arithmetic (Qty x Rate == Line Total)
         calc_mismatches = [item for item in line_items if not item.is_math_sound]
